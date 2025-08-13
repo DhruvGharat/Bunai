@@ -1,0 +1,78 @@
+{
+  "analytics": {
+    "salesByRegion": {
+      "north": 250000,
+      "south": 180000,
+      "east": 150000,
+      "west": 220000
+    },
+    "topArtists": [
+      {
+        "id": 3,
+        "name": "Aarti Devi",
+        "location": "Varanasi",
+        "sales": 120000,
+        "rating": 4.9,
+        "products": 15
+      },
+      {
+        "id": 5,
+        "name": "Rameshwar Singh",
+        "location": "Maharashtra",
+        "sales": 95000,
+        "rating": 4.8,
+        "products": 10
+      },
+      {
+        "id": 6,
+        "name": "Savitri Bai",
+        "location": "Odisha",
+        "sales": 85000,
+        "rating": 4.7,
+        "products": 12
+      }
+    ],
+    "trafficSources": {
+      "organic": 45,
+      "social": 30,
+      "direct": 15,
+      "referral": 10
+    },
+    "revenue": {
+      "monthly": [
+        {
+          "month": "January",
+          "amount": 500000
+        },
+        {
+          "month": "February",
+          "amount": 620000
+        },
+        {
+          "month": "March",
+          "amount": 750000
+        }
+      ],
+      "yearly": 2000000
+    },
+    "userGrowth": {
+      "monthly": [
+        {
+          "month": "January",
+          "newUsers": 250,
+          "totalUsers": 1200
+        },
+        {
+          "month": "February",
+          "newUsers": 320,
+          "totalUsers": 1520
+        },
+        {
+          "month": "March",
+          "newUsers": 400,
+          "totalUsers": 1920
+        }
+      ]
+    }
+  }
+}

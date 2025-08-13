@@ -1,0 +1,69 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Handwoven Saree",
+      "description": "Traditional handwoven silk saree from Varanasi, featuring intricate zari work and traditional motifs.",
+      "price": 12999,
+      "basePrice": 9999,
+      "platformFee": 1500,
+      "deliveryFee": 1500,
+      "category": "Textiles",
+      "artist": {
+        "id": 3,
+        "name": "Aarti Devi",
+        "location": "Varanasi"
+      },
+      "images": [
+        "https://via.placeholder.com/600x800/228B22/ffffff?text=Handwoven+Saree",
+        "https://via.placeholder.com/600x800/228B22/ffffff?text=Detail+1",
+        "https://via.placeholder.com/600x800/228B22/ffffff?text=Detail+2"
+      ],
+      "stock": 3,
+      "createdAt": "2024-02-01T10:00:00Z"
+    },
+    {
+      "id": 2,
+      "name": "Warli Painting",
+      "description": "Traditional Warli tribal painting on canvas, depicting village life and rituals.",
+      "price": 4999,
+      "basePrice": 3999,
+      "platformFee": 500,
+      "deliveryFee": 500,
+      "category": "Art",
+      "artist": {
+        "id": 5,
+        "name": "Rameshwar Singh",
+        "location": "Maharashtra"
+      },
+      "images": [
+        "https://via.placeholder.com/600x800/800000/ffffff?text=Warli+Painting",
+        "https://via.placeholder.com/600x800/800000/ffffff?text=Detail+1"
+      ],
+      "stock": 1,
+      "createdAt": "2024-02-02T11:30:00Z"
+    },
+    {
+      "id": 3,
+      "name": "Tribal Jewelry Set",
+      "description": "Handcrafted tribal silver jewelry set, featuring traditional motifs and semi-precious stones.",
+      "price": 7999,
+      "basePrice": 6499,
+      "platformFee": 800,
+      "deliveryFee": 700,
+      "category": "Jewelry",
+      "artist": {
+        "id": 6,
+        "name": "Savitri Bai",
+        "location": "Odisha"
+      },
+      "images": [
+        "https://via.placeholder.com/600x800/FFB400/ffffff?text=Jewelry+Set",
+        "https://via.placeholder.com/600x800/FFB400/ffffff?text=Detail+1",
+        "https://via.placeholder.com/600x800/FFB400/ffffff?text=Detail+2"
+      ],
+      "stock": 5,
+      "createdAt": "2024-02-03T14:15:00Z"
+    }
+  ]
+}

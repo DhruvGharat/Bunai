@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-soft-cream text-neutral-dark font-poppins;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply px-6 py-2 rounded-xl text-white font-medium transition-all duration-200;
+  }
+  
+  .btn-maroon {
+    @apply bg-maroon hover:bg-opacity-90;
+  }
+  
+  .btn-mustard {
+    @apply bg-mustard hover:bg-opacity-90;
+  }
+  
+  .btn-green {
+    @apply bg-forest-green hover:bg-opacity-90;
+  }
+  
+  .btn-neutral {
+    @apply bg-neutral-dark hover:bg-opacity-90;
+  }
+  
+  .card {
+    @apply bg-white rounded-xl shadow-lg p-6 transition-all duration-200 hover:shadow-xl;
+  }
+}

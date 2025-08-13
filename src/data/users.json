@@ -1,0 +1,36 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Admin User",
+      "email": "admin@bunai.com",
+      "role": "admin",
+      "createdAt": "2024-01-15T10:30:00Z"
+    },
+    {
+      "id": 2,
+      "name": "Rahul Sharma",
+      "email": "rahul@bunai.com",
+      "role": "buyer",
+      "createdAt": "2024-01-16T11:45:00Z"
+    },
+    {
+      "id": 3,
+      "name": "Aarti Devi",
+      "email": "aarti@bunai.com",
+      "role": "artisan",
+      "location": "Rajasthan",
+      "specialty": "Textiles",
+      "createdAt": "2024-01-17T14:20:00Z"
+    },
+    {
+      "id": 4,
+      "name": "Suresh Kumar",
+      "email": "suresh@bunai.com",
+      "role": "volunteer",
+      "rating": 4.8,
+      "deliveriesCompleted": 125,
+      "createdAt": "2024-01-18T09:15:00Z"
+    }
+  ]
+}
