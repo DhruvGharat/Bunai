@@ -1,5 +1,8 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { useState } from 'react';
+import { AuthProvider } from './contexts/AuthContext';
+
+// Components
+import Navbar from './components/Navbar';
 
 // Pages
 import WelcomePage from './pages/WelcomePage';
@@ -13,19 +16,26 @@ import ArtisanSignUp from './pages/ArtisanSignUp';
 import VolunteerSignUp from './pages/VolunteerSignUp';
 
 function App() {
-  const [authState, setAuthState] = useState({
-    isAuthenticated: true, // Set to true for development
-    role: 'artisan' // Set to 'artisan' for dashboard access
-  });
-
   const PrivateRoute = ({ children, allowedRoles }) => {
+    const { authState } = useAuth();
     const content = authState.isAuthenticated && allowedRoles.includes(authState.role) ? children : <Navigate to="/" replace />;
     return <>{content}</>;
   };
 
+  const AuthenticatedLayout = ({ children }) => {
+    const { authState } = useAuth();
+    return (
+      <>
+        <Navbar role={authState.role} onLogout={() => useAuth().setAuthState({ isAuthenticated: false, role: null })} />
+        {children}
+      </>
+    );
+  };
+
   return (
-    <Router>
-      <Routes>
+    <AuthProvider>
+      <Router>
+        <Routes>
         <Route path="/" element={<WelcomePage />} />
         <Route path="/login/:role" element={<LoginRole />} />
         <Route path="/signup/buyer" element={
@@ -49,7 +59,9 @@ function App() {
           path="/admin/*"
           element={
             <PrivateRoute allowedRoles={['admin']}>
-              <AdminDashboard />
+              <AuthenticatedLayout>
+                <AdminDashboard />
+              </AuthenticatedLayout>
             </PrivateRoute>
           }
         />
@@ -57,7 +69,9 @@ function App() {
           path="/buyer/*"
           element={
             <PrivateRoute allowedRoles={['buyer']}>
-              <BuyerDashboard />
+              <AuthenticatedLayout>
+                <BuyerDashboard />
+              </AuthenticatedLayout>
             </PrivateRoute>
           }
         />
@@ -65,7 +79,9 @@ function App() {
           path="/artisan/*"
           element={
             <PrivateRoute allowedRoles={['artisan']}>
-              <ArtisanDashboard />
+              <AuthenticatedLayout>
+                <ArtisanDashboard />
+              </AuthenticatedLayout>
             </PrivateRoute>
           }
         />
@@ -73,12 +89,15 @@ function App() {
           path="/volunteer/*"
           element={
             <PrivateRoute allowedRoles={['volunteer']}>
-              <VolunteerDashboard />
+              <AuthenticatedLayout>
+                <VolunteerDashboard />
+              </AuthenticatedLayout>
             </PrivateRoute>
           }
         />
       </Routes>
     </Router>
+    </AuthProvider>
   );
 }
 

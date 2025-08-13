@@ -53,12 +53,12 @@ const Navbar = ({ role, onLogout }) => {
               </Link>
             </div>
 
-            <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
+            <div className="flex space-x-4">
               {navLinks[role]?.map((link) => (
                 <Link
                   key={link.path}
                   to={link.path}
-                  className="inline-flex items-center px-1 pt-1 text-sm font-medium text-neutral-dark hover:text-maroon"
+                  className="inline-flex items-center px-2 py-1 text-sm font-medium text-neutral-dark hover:text-maroon rounded-md hover:bg-gray-100"
                   aria-label={`Navigate to ${link.label}`}
                 >
                   {link.text}
@@ -67,7 +67,7 @@ const Navbar = ({ role, onLogout }) => {
             </div>
           </div>
 
-          <div className="hidden sm:ml-6 sm:flex sm:items-center">
+          <div className="flex items-center">
             <div className="ml-3 relative">
               <select
                 className="rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-base font-medium text-neutral-dark shadow-sm focus:border-maroon focus:outline-none focus:ring-1 focus:ring-maroon sm:text-sm"
@@ -92,7 +92,7 @@ const Navbar = ({ role, onLogout }) => {
             </div>
           </div>
 
-          <div className="flex items-center sm:hidden">
+          <div className="flex items-center">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="inline-flex items-center justify-center p-2 rounded-md text-neutral-dark hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-maroon"

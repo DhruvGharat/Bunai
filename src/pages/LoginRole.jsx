@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { LockClosedIcon } from '@heroicons/react/24/outline'
+import { useAuth } from '../contexts/AuthContext'
 
 const LoginRole = () => {
   const { role } = useParams()
@@ -10,6 +11,7 @@ const LoginRole = () => {
     email: '',
     password: ''
   })
+  const { setAuthState } = useAuth()
 
   const roleColors = {
     admin: { primary: 'maroon', secondary: 'mustard' },
@@ -37,6 +39,7 @@ const LoginRole = () => {
     // Mock login - in a real app, this would make an API call
     if (formData.email && formData.password) {
       // Simulate successful login
+      setAuthState({ isAuthenticated: true, role: role })
       navigate(`/${role}`)
     }
   }
