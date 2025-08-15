@@ -1,0 +1,384 @@
+import { Fragment, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { 
+  Bars3Icon, 
+  XMarkIcon, 
+  MagnifyingGlassIcon,
+  ChevronDownIcon,
+  GlobeAltIcon,
+  ArrowRightOnRectangleIcon,
+  UserPlusIcon,
+  UserCircleIcon
+} from '@heroicons/react/24/outline';
+import { Menu, Transition } from '@headlessui/react';
+
+const Navbar = ({ isAuthenticated, userRole, onLogout }) => {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
+
+  // Languages
+  const languages = [
+    { code: 'en', name: 'English', flag: '🇬🇧' },
+    { code: 'hi', name: 'हिंदी', flag: '🇮🇳' },
+    { code: 'mr', name: 'मराठी', flag: '🇮🇳' }
+  ];
+  const [selectedLanguage, setSelectedLanguage] = useState(languages[0]);
+
+  // Navigation links
+  const navLinks = [
+    { name: 'Home', href: '/', current: true },
+    { name: 'Shop', href: '/shop', current: false },
+    { name: 'About Us', href: '/about', current: false },
+  ];
+
+  // User types for signup dropdown
+  const userTypes = [
+    { name: 'Buyer', href: '/signup/buyer' },
+    { name: 'Artisan', href: '/signup/artisan' },
+    { name: 'Volunteer', href: '/signup/volunteer' },
+  ];
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+      setSearchQuery('');
+    }
+  };
+
+  return (
+    <header className="bg-white shadow-sm">
+      <nav aria-label="Top" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="border-b border-gray-200">
+          <div className="flex h-16 items-center">
+            {/* Mobile menu button */}
+            <button
+              type="button"
+              className="rounded-md bg-white p-2 text-gray-400 lg:hidden"
+              onClick={() => setMobileMenuOpen(true)}
+            >
+              <span className="sr-only">Open menu</span>
+              <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+            </button>
+
+            {/* Logo and brand */}
+            <div className="ml-4 flex lg:ml-0">
+              <Link to="/" className="flex items-center">
+                <div className="h-8 w-8 rounded-full bg-amber-600 flex items-center justify-center text-white font-bold mr-2">
+                  B
+                </div>
+                <span className="text-xl font-bold text-gray-900">BUNAI</span>
+              </Link>
+            </div>
+
+            {/* Desktop Navigation */}
+            <div className="hidden lg:ml-8 lg:block lg:self-stretch">
+              <div className="flex h-full space-x-8">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.name}
+                    to={link.href}
+                    className={`flex items-center text-sm font-medium ${
+                      link.current ? 'text-amber-600' : 'text-gray-700 hover:text-gray-800'
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            <div className="ml-auto flex items-center">
+              {/* Search */}
+              <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
+                <form onSubmit={handleSearch} className="relative">
+                  <div className="relative">
+                    <input
+                      type="text"
+                      placeholder="Search products..."
+                      className="w-full rounded-md border border-gray-300 py-2 pl-10 pr-4 focus:border-amber-500 focus:ring-amber-500 sm:text-sm"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                    <MagnifyingGlassIcon className="h-5 w-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
+                  </div>
+                </form>
+              </div>
+
+              {/* Language Selector */}
+              <Menu as="div" className="relative ml-4">
+                <div>
+                  <Menu.Button className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">
+                    <GlobeAltIcon className="h-5 w-5 mr-1" />
+                    <span className="hidden sm:inline">{selectedLanguage.name}</span>
+                    <ChevronDownIcon className="ml-1 h-4 w-4" aria-hidden="true" />
+                  </Menu.Button>
+                </div>
+                <Transition
+                  as={Fragment}
+                  enter="transition ease-out duration-100"
+                  enterFrom="transform opacity-0 scale-95"
+                  enterTo="transform opacity-100 scale-100"
+                  leave="transition ease-in duration-75"
+                  leaveFrom="transform opacity-100 scale-100"
+                  leaveTo="transform opacity-0 scale-95"
+                >
+                  <Menu.Items className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    {languages.map((language) => (
+                      <Menu.Item key={language.code}>
+                        {({ active }) => (
+                          <button
+                            onClick={() => setSelectedLanguage(language)}
+                            className={`${
+                              active ? 'bg-gray-100' : ''
+                            } flex w-full items-center px-4 py-2 text-sm text-gray-700`}
+                          >
+                            <span className="mr-2">{language.flag}</span>
+                            {language.name}
+                          </button>
+                        )}
+                      </Menu.Item>
+                    ))}
+                  </Menu.Items>
+                </Transition>
+              </Menu>
+
+              {/* User Menu / Sign In */}
+              {isAuthenticated ? (
+                <Menu as="div" className="relative ml-4">
+                  <div>
+                    <Menu.Button className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">
+                      <UserCircleIcon className="h-6 w-6 mr-1" />
+                      <ChevronDownIcon className="ml-1 h-4 w-4" aria-hidden="true" />
+                    </Menu.Button>
+                  </div>
+                  <Transition
+                    as={Fragment}
+                    enter="transition ease-out duration-100"
+                    enterFrom="transform opacity-0 scale-95"
+                    enterTo="transform opacity-100 scale-100"
+                    leave="transition ease-in duration-75"
+                    leaveFrom="transform opacity-100 scale-100"
+                    leaveTo="transform opacity-0 scale-95"
+                  >
+                    <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      <Menu.Item>
+                        {({ active }) => (
+                          <Link
+                            to={`/${userRole}/profile`}
+                            className={`${
+                              active ? 'bg-gray-100' : ''
+                            } block px-4 py-2 text-sm text-gray-700`}
+                          >
+                            Your Profile
+                          </Link>
+                        )}
+                      </Menu.Item>
+                      <Menu.Item>
+                        {({ active }) => (
+                          <button
+                            onClick={onLogout}
+                            className={`${
+                              active ? 'bg-gray-100' : ''
+                            } flex w-full items-center px-4 py-2 text-sm text-gray-700`}
+                          >
+                            <ArrowRightOnRectangleIcon className="mr-2 h-5 w-5" />
+                            Sign out
+                          </button>
+                        )}
+                      </Menu.Item>
+                    </Menu.Items>
+                  </Transition>
+                </Menu>
+              ) : (
+                <Menu as="div" className="relative ml-4">
+                  <div>
+                    <Menu.Button className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">
+                      <UserCircleIcon className="h-6 w-6 mr-1" />
+                      <span className="hidden sm:inline">Sign in / Register</span>
+                      <ChevronDownIcon className="ml-1 h-4 w-4" aria-hidden="true" />
+                    </Menu.Button>
+                  </div>
+                  <Transition
+                    as={Fragment}
+                    enter="transition ease-out duration-100"
+                    enterFrom="transform opacity-0 scale-95"
+                    enterTo="transform opacity-100 scale-100"
+                    leave="transition ease-in duration-75"
+                    leaveFrom="transform opacity-100 scale-100"
+                    leaveTo="transform opacity-0 scale-95"
+                  >
+                    <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      <Menu.Item>
+                        {({ active }) => (
+                          <Link
+                            to="/login"
+                            className={`${
+                              active ? 'bg-gray-100' : ''
+                            } flex items-center px-4 py-2 text-sm text-gray-700`}
+                          >
+                            <ArrowRightOnRectangleIcon className="mr-2 h-5 w-5" />
+                            Sign in
+                          </Link>
+                        )}
+                      </Menu.Item>
+                      <div className="border-t border-gray-100 my-1"></div>
+                      <div className="px-3 py-1 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        Register as
+                      </div>
+                      {userTypes.map((type) => (
+                        <Menu.Item key={type.name}>
+                          {({ active }) => (
+                            <Link
+                              to={type.href}
+                              className={`${
+                                active ? 'bg-gray-100' : ''
+                              } flex items-center px-4 py-2 text-sm text-gray-700`}
+                            >
+                              <UserPlusIcon className="mr-2 h-4 w-4" />
+                              {type.name}
+                            </Link>
+                          )}
+                        </Menu.Item>
+                      ))}
+                    </Menu.Items>
+                  </Transition>
+                </Menu>
+              )}
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      {/* Mobile menu */}
+      <div className={`${mobileMenuOpen ? 'block' : 'hidden'} lg:hidden`}>
+        <div className="fixed inset-0 z-40 flex">
+          <div 
+            className="fixed inset-0 bg-black bg-opacity-25" 
+            aria-hidden="true" 
+            onClick={() => setMobileMenuOpen(false)}
+          />
+          <div className="relative flex w-full max-w-xs flex-col overflow-y-auto bg-white pb-12 shadow-xl">
+            <div className="flex px-4 pt-5 pb-2">
+              <button
+                type="button"
+                className="-m-2 inline-flex items-center justify-center rounded-md p-2 text-gray-400"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <span className="sr-only">Close menu</span>
+                <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+              </button>
+            </div>
+
+            {/* Mobile menu links */}
+            <div className="space-y-6 border-t border-gray-200 py-6 px-4">
+              {navLinks.map((link) => (
+                <div key={link.name} className="flow-root">
+                  <Link
+                    to={link.href}
+                    className="-m-2 block p-2 font-medium text-gray-900"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {link.name}
+                  </Link>
+                </div>
+              ))}
+            </div>
+
+            {/* Mobile search */}
+            <div className="border-t border-gray-200 px-4 py-6">
+              <form onSubmit={handleSearch} className="relative">
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Search products..."
+                    className="w-full rounded-md border border-gray-300 py-2 pl-10 pr-4 focus:border-amber-500 focus:ring-amber-500 sm:text-sm"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                  <MagnifyingGlassIcon className="h-5 w-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
+                </div>
+              </form>
+            </div>
+
+            {/* Mobile language selector */}
+            <div className="border-t border-gray-200 px-4 py-6">
+              <h3 className="text-sm font-medium text-gray-500">Language</h3>
+              <div className="mt-2">
+                {languages.map((language) => (
+                  <button
+                    key={language.code}
+                    onClick={() => {
+                      setSelectedLanguage(language);
+                      setMobileMenuOpen(false);
+                    }}
+                    className={`flex items-center p-2 text-sm w-full text-left rounded-md ${
+                      selectedLanguage.code === language.code ? 'bg-gray-100' : 'hover:bg-gray-50'
+                    }`}
+                  >
+                    <span className="mr-2">{language.flag}</span>
+                    {language.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Mobile auth links */}
+            <div className="border-t border-gray-200 px-4 py-6">
+              {isAuthenticated ? (
+                <div className="space-y-4">
+                  <Link
+                    to={`/${userRole}/profile`}
+                    className="flex items-center p-2 -m-2"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <UserCircleIcon className="h-6 w-6 mr-2 text-gray-400" />
+                    <span className="text-sm font-medium text-gray-700">Your Profile</span>
+                  </Link>
+                  <button
+                    onClick={() => {
+                      onLogout();
+                      setMobileMenuOpen(false);
+                    }}
+                    className="flex items-center p-2 -m-2 text-red-600 hover:text-red-800"
+                  >
+                    <ArrowRightOnRectangleIcon className="h-6 w-6 mr-2" />
+                    <span className="text-sm font-medium">Sign out</span>
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  <Link
+                    to="/login"
+                    className="flex items-center p-2 -m-2"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <ArrowRightOnRectangleIcon className="h-6 w-6 mr-2 text-gray-400" />
+                    <span className="text-sm font-medium text-gray-700">Sign in</span>
+                  </Link>
+                  <div className="pl-8">
+                    <p className="text-xs font-medium text-gray-500 mb-2">REGISTER AS</p>
+                    {userTypes.map((type) => (
+                      <Link
+                        key={type.name}
+                        to={type.href}
+                        className="flex items-center p-2 -m-2 text-sm text-gray-700 hover:text-gray-900"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        <UserPlusIcon className="h-5 w-5 mr-2 text-gray-400" />
+                        {type.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+};
+
+export default Navbar;

@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider } from './contexts/AuthContext';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 
 // Components
 import Navbar from './components/Navbar';
@@ -15,88 +15,94 @@ import BuyerSignUp from './pages/BuyerSignUp';
 import ArtisanSignUp from './pages/ArtisanSignUp';
 import VolunteerSignUp from './pages/VolunteerSignUp';
 
-function App() {
-  const PrivateRoute = ({ children, allowedRoles }) => {
-    const { authState } = useAuth();
-    const content = authState.isAuthenticated && allowedRoles.includes(authState.role) ? children : <Navigate to="/" replace />;
-    return <>{content}</>;
-  };
+// Private Route Component
+const PrivateRoute = ({ children, allowedRoles }) => {
+  const { authState } = useAuth();
+  const content = authState.isAuthenticated && allowedRoles.includes(authState.role) 
+    ? children 
+    : <Navigate to="/" replace />;
+  return <>{content}</>;
+};
 
-  const AuthenticatedLayout = ({ children }) => {
-    const { authState } = useAuth();
-    return (
-      <>
-        <Navbar role={authState.role} onLogout={() => useAuth().setAuthState({ isAuthenticated: false, role: null })} />
-        {children}
-      </>
-    );
+// Main App Component
+function AppContent() {
+  const { authState, setAuthState } = useAuth();
+  
+  const handleLogout = () => {
+    setAuthState({ isAuthenticated: false, role: null, user: null });
+    // You might want to add a redirect to home or login page here
   };
 
   return (
+    <div className="min-h-screen flex flex-col">
+      <Navbar 
+        isAuthenticated={authState.isAuthenticated} 
+        userRole={authState.role}
+        onLogout={handleLogout} 
+      />
+      <main className="flex-grow">
+        <Routes>
+          <Route path="/" element={<WelcomePage />} />
+          <Route path="/login/:role" element={<LoginRole />} />
+          <Route path="/signup/buyer" element={<BuyerSignUp />} />
+          <Route path="/signup/artisan" element={<ArtisanSignUp />} />
+          <Route path="/signup/volunteer" element={<VolunteerSignUp />} />
+          
+          {/* Admin Routes */}
+          <Route 
+            path="/admin/*" 
+            element={
+              <PrivateRoute allowedRoles={['admin']}>
+                <AdminDashboard />
+              </PrivateRoute>
+            } 
+          />
+          
+          {/* Buyer Routes */}
+          <Route 
+            path="/buyer/*" 
+            element={
+              <PrivateRoute allowedRoles={['buyer']}>
+                <BuyerDashboard />
+              </PrivateRoute>
+            } 
+          />
+          
+          {/* Artisan Routes */}
+          <Route 
+            path="/artisan/*" 
+            element={
+              <PrivateRoute allowedRoles={['artisan']}>
+                <ArtisanDashboard />
+              </PrivateRoute>
+            } 
+          />
+          
+          {/* Volunteer Routes */}
+          <Route 
+            path="/volunteer/*" 
+            element={
+              <PrivateRoute allowedRoles={['volunteer']}>
+                <VolunteerDashboard />
+              </PrivateRoute>
+            } 
+          />
+          
+          {/* Fallback route */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </main>
+    </div>
+  );
+}
+
+// Main App Wrapper
+function App() {
+  return (
     <AuthProvider>
       <Router>
-        <Routes>
-        <Route path="/" element={<WelcomePage />} />
-        <Route path="/login/:role" element={<LoginRole />} />
-        <Route path="/signup/buyer" element={
-          <PrivateRoute allowedRoles={['admin', 'buyer', 'artisan', 'volunteer']}>
-            <BuyerSignUp />
-          </PrivateRoute>
-        } />
-        <Route path="/signup/artisan" element={
-          <PrivateRoute allowedRoles={['admin', 'buyer', 'artisan', 'volunteer']}>
-            <ArtisanSignUp />
-          </PrivateRoute>
-        } />
-        <Route path="/signup/volunteer" element={
-          <PrivateRoute allowedRoles={['admin', 'buyer', 'artisan', 'volunteer']}>
-            <VolunteerSignUp />
-          </PrivateRoute>
-        } />
-        
-        {/* Protected Routes */}
-        <Route
-          path="/admin/*"
-          element={
-            <PrivateRoute allowedRoles={['admin']}>
-              <AuthenticatedLayout>
-                <AdminDashboard />
-              </AuthenticatedLayout>
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/buyer/*"
-          element={
-            <PrivateRoute allowedRoles={['buyer']}>
-              <AuthenticatedLayout>
-                <BuyerDashboard />
-              </AuthenticatedLayout>
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/artisan/*"
-          element={
-            <PrivateRoute allowedRoles={['artisan']}>
-              <AuthenticatedLayout>
-                <ArtisanDashboard />
-              </AuthenticatedLayout>
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/volunteer/*"
-          element={
-            <PrivateRoute allowedRoles={['volunteer']}>
-              <AuthenticatedLayout>
-                <VolunteerDashboard />
-              </AuthenticatedLayout>
-            </PrivateRoute>
-          }
-        />
-      </Routes>
-    </Router>
+        <AppContent />
+      </Router>
     </AuthProvider>
   );
 }
