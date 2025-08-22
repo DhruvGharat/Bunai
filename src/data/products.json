@@ -15,9 +15,9 @@
         "location": "Varanasi"
       },
       "images": [
-        "https://via.placeholder.com/600x800/228B22/ffffff?text=Handwoven+Saree",
-        "https://via.placeholder.com/600x800/228B22/ffffff?text=Detail+1",
-        "https://via.placeholder.com/600x800/228B22/ffffff?text=Detail+2"
+        "https://picsum.photos/600/800?random=1",
+        "https://picsum.photos/600/800?random=2",
+        "https://picsum.photos/600/800?random=3"
       ],
       "stock": 3,
       "createdAt": "2024-02-01T10:00:00Z"
@@ -37,8 +37,8 @@
         "location": "Maharashtra"
       },
       "images": [
-        "https://via.placeholder.com/600x800/800000/ffffff?text=Warli+Painting",
-        "https://via.placeholder.com/600x800/800000/ffffff?text=Detail+1"
+        "https://picsum.photos/600/800?random=4",
+        "https://picsum.photos/600/800?random=5"
       ],
       "stock": 1,
       "createdAt": "2024-02-02T11:30:00Z"
@@ -58,9 +58,9 @@
         "location": "Odisha"
       },
       "images": [
-        "https://via.placeholder.com/600x800/FFB400/ffffff?text=Jewelry+Set",
-        "https://via.placeholder.com/600x800/FFB400/ffffff?text=Detail+1",
-        "https://via.placeholder.com/600x800/FFB400/ffffff?text=Detail+2"
+        "https://picsum.photos/600/800?random=6",
+        "https://picsum.photos/600/800?random=7",
+        "https://picsum.photos/600/800?random=8"
       ],
       "stock": 5,
       "createdAt": "2024-02-03T14:15:00Z"

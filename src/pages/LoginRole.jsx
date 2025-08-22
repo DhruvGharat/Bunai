@@ -5,33 +5,40 @@ import { LockClosedIcon } from '@heroicons/react/24/outline'
 import { useAuth } from '../contexts/AuthContext'
 
 const LoginRole = () => {
-  const { role } = useParams()
+  const { role: roleParam } = useParams()
   const navigate = useNavigate()
+  
+  // Validate role and provide fallback
+  const validRoles = ['admin', 'buyer', 'artisan', 'volunteer', 'delivery']
+  const role = validRoles.includes(roleParam) ? roleParam : 'buyer'
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   })
-  const { setAuthState } = useAuth()
+  const { authState, setAuthState } = useAuth()
 
   const roleColors = {
     admin: { primary: 'maroon', secondary: 'mustard' },
     buyer: { primary: 'mustard', secondary: 'forest-green' },
     artisan: { primary: 'forest-green', secondary: 'mustard' },
-    volunteer: { primary: 'neutral-dark', secondary: 'mustard' }
+    volunteer: { primary: 'neutral-dark', secondary: 'mustard' },
+    delivery: { primary: 'tribal-blue', secondary: 'mustard' }
   }
 
   const roleTitles = {
     admin: 'Admin Login',
     buyer: 'Buyer Login',
     artisan: 'Artisan Login',
-    volunteer: 'Volunteer Login'
+    volunteer: 'Volunteer Login',
+    delivery: 'Delivery Partner Login'
   }
 
   const roleDescriptions = {
     admin: 'Manage the platform and support the artisan community',
     buyer: 'Access exclusive tribal crafts and support artisans',
     artisan: 'Sell your traditional crafts and reach a wider audience',
-    volunteer: 'Help deliver orders and support the artisan community'
+    volunteer: 'Help deliver orders and support the artisan community',
+    delivery: 'Manage and track your deliveries efficiently'
   }
 
   const handleSubmit = (e) => {
@@ -39,8 +46,13 @@ const LoginRole = () => {
     // Mock login - in a real app, this would make an API call
     if (formData.email && formData.password) {
       // Simulate successful login
-      setAuthState({ isAuthenticated: true, role: role })
-      navigate(`/${role}`)
+      const redirectPath = `/${role}`; // All roles use their name in the path
+      setAuthState(prev => ({
+        ...prev,
+        isAuthenticated: true,
+        user: { role: role, email: formData.email }
+      }))
+      navigate(redirectPath)
     }
   }
 

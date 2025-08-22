@@ -141,31 +141,6 @@ const WelcomePage = () => {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      {/* Navigation */}
-      <nav className="fixed top-0 right-0 z-50 p-6">
-        <div className="flex items-center gap-4 bg-white/90 backdrop-blur-sm rounded-full px-6 py-3 shadow-lg">
-          <button 
-            onClick={() => setLanguage('en')}
-            className={`px-3 py-1 rounded-full transition-colors ${language === 'en' ? 'bg-red-900 text-white' : 'text-red-900 hover:bg-red-50'}`}
-          >
-            English
-          </button>
-          <button 
-            onClick={() => setLanguage('hi')}
-            className={`px-3 py-1 rounded-full transition-colors ${language === 'hi' ? 'bg-red-900 text-white' : 'text-red-900 hover:bg-red-50'}`}
-          >
-            हिंदी
-          </button>
-          <button 
-            onClick={() => setLanguage('mr')}
-            className={`px-3 py-1 rounded-full transition-colors ${language === 'mr' ? 'bg-red-900 text-white' : 'text-red-900 hover:bg-red-50'}`}
-          >
-            मराठी
-          </button>
-          <div className="w-px h-6 bg-gray-300"></div>
-          <Globe className="w-5 h-5 text-red-900" />
-        </div>
-      </nav>
 
       {/* Hero Slideshow */}
       <div className="relative h-screen">
